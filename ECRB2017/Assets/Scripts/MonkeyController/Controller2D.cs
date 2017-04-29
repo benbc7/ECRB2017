@@ -66,6 +66,16 @@ public class Controller2D : RaycastController {
                     continue;
                 }
 
+                if (hit.collider.tag == "JumpThrough") {
+                    if (collisions.fallingThroughPlatform) {
+                        continue;
+                    } else {
+                        collisions.fallingThroughPlatform = true;
+                        Invoke ("ResetFallingThroughPlatform", 0.1f);
+                        continue;
+                    }
+                }
+
                 float slopeAngle = Vector2.Angle (hit.normal, Vector2.up);
 
                 if (i == 0 && slopeAngle <= maxSlopeAngle) {

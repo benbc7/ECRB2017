@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent (typeof (Controller2D))]
-public class Player : MonoBehaviour {
+public class MonkeyPlayer : MonoBehaviour {
 
     public float moveSpeed = 6;
     public float maxJumpHeight = 4;
