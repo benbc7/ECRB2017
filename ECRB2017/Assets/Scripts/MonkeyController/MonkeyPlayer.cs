@@ -30,7 +30,7 @@ public class MonkeyPlayer : MonoBehaviour {
     Vector2 directionalInput;
 
 	private Transform hitbox;
-	private Vector3 hitboxPosition = new Vector3 (0.4f, -0.1f, 0);
+	private Vector3 hitboxPosition = new Vector3 (0.3f, -0.1f, 0);
 
 	[System.NonSerialized]
     public bool wallSliding;
@@ -113,13 +113,15 @@ public class MonkeyPlayer : MonoBehaviour {
     }
 
 	public void KnockBackPlayer (int hitDirection) {
-		float xMultiplier = Mathf.Abs (velocity.x / 6) + 1;
+		float xMultiplier = Mathf.Abs (velocity.x / 4) + 1;
 		velocity.x = minJumpVelocity * hitDirection * xMultiplier / 2;
+		velocity.y = minJumpVelocity / 3f;
 	}
 
 	public void OnNormalAttackInput (int comboNumber) {
         float xMultiplier = Mathf.Abs (velocity.x / 8) + 1;
         velocity.x = minJumpVelocity * controller.collisions.faceDirection * xMultiplier / 3;
+		controller.animator.SetTrigger ("Punch");
     }
 
     public void OnForwardAttackInput (int faceDirection) {
@@ -133,7 +135,7 @@ public class MonkeyPlayer : MonoBehaviour {
     public void OnUpAttackInput (int faceDirection) {
         velocity.x = minJumpVelocity / 2 * faceDirection;
         velocity.y = maxJumpVelocity;
-        //controller.animator.SetTrigger ("UpwardSwordAttack");
+        controller.animator.SetTrigger ("UpAttack");
     }
 
     public void OnDownAttackInput () {

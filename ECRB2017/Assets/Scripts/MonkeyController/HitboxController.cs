@@ -6,7 +6,7 @@ public class HitboxController : MonoBehaviour {
 
 	private void OnTriggerEnter2D (Collider2D other) {
 		if (other.transform != transform.parent && other.tag == "Player") {
-			other.SendMessage ("StunPlayer", 0.2f);
+			other.SendMessage ("StunPlayer", 0.5f);
 
 			int hitDirection = (transform.localPosition.x > 0) ? 1 : -1;
 
