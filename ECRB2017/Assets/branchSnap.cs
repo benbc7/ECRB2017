@@ -19,11 +19,10 @@ public class branchSnap : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("trig enter");
-        if (other.name == "spawnPoint")
+        if (other.tag == "Branch")
         {
-            transform.rotation = other.transform.rotation;
             transform.position = other.transform.position;
-            BM.isLocked = true;
+            BM.isPositioned = true;
         }
     }
 }

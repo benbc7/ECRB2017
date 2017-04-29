@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class PoolManager : MonoBehaviour {
 
-    Dictionary<int, Queue<ObjectInstance>> poolDictionary = new Dictionary<int, Queue<ObjectInstance>> ();
+    Dictionary<string, Queue<ObjectInstance>> poolDictionary = new Dictionary<string, Queue<ObjectInstance>> ();
 
     static PoolManager _instance;
 
@@ -18,7 +18,7 @@ public class PoolManager : MonoBehaviour {
     }
 
 	public void CreatePool (GameObject prefab, int poolSize) {
-        int poolKey = prefab.GetInstanceID ();
+		string poolKey = prefab.name;
         GameObject poolHolder = new GameObject (prefab.name + "Pool");
         poolHolder.transform.parent = transform;
         if (!poolDictionary.ContainsKey (poolKey)) {
@@ -31,13 +31,13 @@ public class PoolManager : MonoBehaviour {
         }
     }
 
-    public Transform ReuseObject (GameObject prefab, Vector3 position, Quaternion rotation) {
-        int poolKey = prefab.GetInstanceID ();
+    public GameObject ReuseObject (GameObject prefab, Vector3 position, Quaternion rotation) {
+		string poolKey = prefab.name;
         if (poolDictionary.ContainsKey (poolKey)) {
             ObjectInstance objectToReuse = poolDictionary[poolKey].Dequeue ();
             poolDictionary[poolKey].Enqueue (objectToReuse);
             objectToReuse.Reuse (position, rotation);
-            return objectToReuse.transform;
+            return objectToReuse.transform.gameObject;
         }
         return null;
     }
