@@ -21,13 +21,16 @@ public class MonkeyPlayer : MonoBehaviour {
     float gravity;
     float maxJumpVelocity;
     float minJumpVelocity;
-    Vector3 velocity;
     float velocityXSmoothing;
+
+    public Vector3 velocity;
 
     Controller2D controller;
 
     Vector2 directionalInput;
-    bool wallSliding;
+
+	[System.NonSerialized]
+    public bool wallSliding;
     int wallDirectionX;
 
 	void Start () {
@@ -43,6 +46,9 @@ public class MonkeyPlayer : MonoBehaviour {
         HandleWallSliding ();
 
         controller.Move (velocity * Time.deltaTime, directionalInput);
+        controller.animator.SetFloat ("velocityX", Mathf.Abs (velocity.x));
+        controller.animator.SetFloat ("velocityY", velocity.y);
+		controller.animator.SetBool ("facingRight", Mathf.Sign (velocity.x) == 1);
 
         if (controller.collisions.above || controller.collisions.below) {
             if (controller.collisions.slidingDownMaxSlope) {
@@ -62,22 +68,30 @@ public class MonkeyPlayer : MonoBehaviour {
             if (wallDirectionX == directionalInput.x) {
                 velocity.x = -wallDirectionX * wallJumpClimb.x;
                 velocity.y = wallJumpClimb.y;
-            } else if (directionalInput.x == 0) {
+                controller.animator.Play ("Jump");
+				controller.UpdateSpriteFaceDirection (-Mathf.Sign (velocity.x));
+			} else if (directionalInput.x == 0) {
                 velocity.x = -wallDirectionX * wallJumpOff.x;
                 velocity.y = wallJumpOff.y;
-            } else {
+                controller.animator.Play ("Jump");
+				controller.UpdateSpriteFaceDirection (Mathf.Sign (velocity.x));
+			} else {
                 velocity.x = -wallDirectionX * wallLeap.x;
                 velocity.y = wallLeap.y;
-            }
+                controller.animator.Play ("Jump");
+				controller.UpdateSpriteFaceDirection (Mathf.Sign (velocity.x));
+			}
         }
         if (controller.collisions.below) {
             if (controller.collisions.slidingDownMaxSlope) {
                 if (directionalInput.x != -Mathf.Sign (controller.collisions.slopeNormal.x)) { // not jumping against max slope
                     velocity.y = maxJumpVelocity * controller.collisions.slopeNormal.y;
                     velocity.x = maxJumpVelocity * controller.collisions.slopeNormal.x;
+                    controller.animator.Play ("Jump");
                 }
-            } else {
+            } else  {
                 velocity.y = maxJumpVelocity;
+                controller.animator.Play ("Jump");
             }
         }
     }
@@ -88,11 +102,46 @@ public class MonkeyPlayer : MonoBehaviour {
         }
     }
 
+    public void OnNormalAttackInput (int comboNumber) {
+        float xMultiplier = Mathf.Abs (velocity.x / 8) + 1;
+        velocity.x = minJumpVelocity * controller.collisions.faceDirection * xMultiplier / 3;
+    }
+
+    public void OnForwardAttackInput (int faceDirection) {
+        if (!controller.collisions.slidingDownMaxSlope) {
+            float xMultiplier = Mathf.Abs (velocity.x / 16) + 1;
+            velocity.x = minJumpVelocity * faceDirection * xMultiplier;
+            //controller.animator.SetTrigger ("ForwardSwordAttack");
+        }
+    }
+
+    public void OnUpAttackInput (int faceDirection) {
+        velocity.x = minJumpVelocity * faceDirection;
+        velocity.y = maxJumpVelocity;
+        //controller.animator.SetTrigger ("UpwardSwordAttack");
+    }
+
+    public void OnDownAttackInput () {
+        if (!controller.collisions.below) {
+            velocity.y = minJumpVelocity / -1f;
+        }
+        //controller.animator.SetTrigger ("DownwardSwordAttack");
+    }
+
+	public void OnRollInput (int faceDirection) {
+		faceDirection = (faceDirection != 0) ? faceDirection : controller.collisions.faceDirection;
+		velocity.x = maxJumpVelocity * 0.9f * faceDirection;
+		velocity.y = minJumpVelocity / 3f;
+		controller.animator.Play ("Roll");
+	}
+
     void HandleWallSliding () {
         wallDirectionX = (controller.collisions.left) ? -1 : 1;
         wallSliding = false;
+        controller.animator.SetBool ("wallSliding", false);
         if ((controller.collisions.left || controller.collisions.right) && !controller.collisions.below && velocity.y < 0) {
             wallSliding = true;
+            controller.animator.SetBool ("wallSliding", true);
 
             if (velocity.y < -wallSlideSpeedMax) {
                 velocity.y = -wallSlideSpeedMax;

@@ -1,7 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof (Animator))]
 public class Controller2D : RaycastController {
+
+    public Animator animator;
+
+	Transform sprite;
 
     public float maxSlopeAngle = 55;
 
@@ -12,6 +17,8 @@ public class Controller2D : RaycastController {
     public override void Start () {
         base.Start ();
         collisions.faceDirection = 1;
+        animator = GetComponent<Animator> ();
+		sprite = transform.FindChild ("Sprite");
     }
 
     public void Move (Vector2 moveAmount, bool standingOnPlatform = false) {
@@ -21,6 +28,7 @@ public class Controller2D : RaycastController {
     public void Move (Vector2 moveAmount, Vector2 input, bool standingOnPlatform = false) {
         UpdateRaycastOrigins ();
         collisions.Reset ();
+        animator.SetBool ("isGrounded", false);
         collisions.moveAmountOld = moveAmount;
         playerInput = input;
 
@@ -29,7 +37,10 @@ public class Controller2D : RaycastController {
         }
 
         if (moveAmount.x != 0) {
-            collisions.faceDirection = (int)Mathf.Sign (moveAmount.x);
+            //collisions.faceDirection = (int)Mathf.Sign (moveAmount.x);
+            if (collisions.faceDirection != 0) {
+
+            }
         }
 
         HorizontalCollisions (ref moveAmount);
@@ -42,11 +53,12 @@ public class Controller2D : RaycastController {
 
         if (standingOnPlatform) {
             collisions.below = true;
+            animator.SetBool ("isGrounded", true);
         }
     }
 
     void HorizontalCollisions (ref Vector2 moveAmount) {
-        float directionX = collisions.faceDirection;
+		float directionX = moveAmount.x == 0 ? collisions.faceDirection : Mathf.Sign (moveAmount.x);
         float rayLength = Mathf.Abs (moveAmount.x) + skinWidth;
 
         if (Mathf.Abs (moveAmount.x) < skinWidth) {
@@ -61,7 +73,6 @@ public class Controller2D : RaycastController {
             Debug.DrawRay (rayOrigin, Vector2.right * directionX, Color.red);
 
             if (hit) {
-
                 if (hit.distance == 0) {
                     continue;
                 }
@@ -126,9 +137,9 @@ public class Controller2D : RaycastController {
                     if (collisions.fallingThroughPlatform) {
                         continue;
                     }
-                    if (playerInput.y ==  -1) {
+                    if (playerInput.y <  -0.9f) {
                         collisions.fallingThroughPlatform = true;
-                        Invoke ("ResetFallingThroughPlatform", 0.5f);
+                        Invoke ("ResetFallingThroughPlatform", 0.1f);
                         continue;
                     }
                 }
@@ -141,6 +152,7 @@ public class Controller2D : RaycastController {
                 }
 
                 collisions.below = directionY == -1;
+                animator.SetBool ("isGrounded", directionY == -1);
                 collisions.above = directionY == 1;
             }
         }
@@ -170,6 +182,7 @@ public class Controller2D : RaycastController {
             moveAmount.y = climbmoveAmountY;
             moveAmount.x = Mathf.Cos (slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign (moveAmount.x);
             collisions.below = true;
+            animator.SetBool ("isGrounded", true);
             collisions.climbingSlope = true;
             collisions.slopeAngle = slopeAngle;
             collisions.slopeNormal = slopeNormal;
@@ -203,6 +216,7 @@ public class Controller2D : RaycastController {
                             collisions.slopeAngle = slopeAngle;
                             collisions.descendingSlope = true;
                             collisions.below = true;
+                            animator.SetBool ("isGrounded", true);
                             collisions.slopeNormal = hit.normal;
                         }
                     }
@@ -225,6 +239,11 @@ public class Controller2D : RaycastController {
         }
     }
 
+	public void UpdateSpriteFaceDirection (float directionalInputX) {
+		collisions.faceDirection = (int)Mathf.Sign (directionalInputX);
+		sprite.localScale = new Vector3 (collisions.faceDirection, 1, 1);
+	}
+
     void ResetFallingThroughPlatform () {
         collisions.fallingThroughPlatform = false;
     }
@@ -240,10 +259,11 @@ public class Controller2D : RaycastController {
         public float slopeAngle, slopeAngleOld;
         public Vector2 slopeNormal;
         public Vector2 moveAmountOld;
-        public int faceDirection;
         public bool fallingThroughPlatform;
 
-        public void Reset () {
+		public int faceDirection;
+
+		public void Reset () {
             above = below = false;
             left = right = false;
             climbingSlope = false;

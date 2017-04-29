@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - JumpThrough
+  - Branch
   layers:
   - Default
   - TransparentFX
