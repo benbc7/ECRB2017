@@ -9,7 +9,9 @@ public class TrunkPrefab : PoolObject {
 
 	private void Awake () {
 		trunkManager = FindObjectOfType<TrunkManager> ();
-		setPiecePrefabs = trunkManager.setPiecePrefabs;
+		if (trunkManager != null) {
+			setPiecePrefabs = trunkManager.setPiecePrefabs;
+		}
 	}
 
 	public override void OnObjectReuse () {
@@ -28,7 +30,7 @@ public class TrunkPrefab : PoolObject {
 		int numberOfNodes = Random.Range (3, 5);
 
 		Vector3 position = Vector3.zero;
-		position.x = 0.44f;
+		position.x = 0.27f;
 
 		for (int i = 0; i < numberOfNodes; i++) {
 			position.x *= -1;

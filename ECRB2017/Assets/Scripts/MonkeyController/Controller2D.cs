@@ -78,13 +78,13 @@ public class Controller2D : RaycastController {
                 }
 
                 if (hit.collider.tag == "JumpThrough") {
-                    if (collisions.fallingThroughPlatform) {
-                        continue;
-                    } else {
-                        collisions.fallingThroughPlatform = true;
-                        Invoke ("ResetFallingThroughPlatform", 0.1f);
-                        continue;
-                    }
+					if (collisions.walkingThroughPlatform) {
+						continue;
+					} else {
+						collisions.walkingThroughPlatform = true;
+						Invoke ("ResetWalkingThroughPlatform", 0.1f);
+						continue;
+					}
                 }
 
                 float slopeAngle = Vector2.Angle (hit.normal, Vector2.up);
@@ -248,7 +248,11 @@ public class Controller2D : RaycastController {
         collisions.fallingThroughPlatform = false;
     }
 
-    public struct CollisionInfo {
+	void ResetWalkingThroughPlatform () {
+		collisions.walkingThroughPlatform = false;
+	}
+
+	public struct CollisionInfo {
         public bool above, below;
         public bool left, right;
 
@@ -260,6 +264,7 @@ public class Controller2D : RaycastController {
         public Vector2 slopeNormal;
         public Vector2 moveAmountOld;
         public bool fallingThroughPlatform;
+		public bool walkingThroughPlatform;
 
 		public int faceDirection;
 

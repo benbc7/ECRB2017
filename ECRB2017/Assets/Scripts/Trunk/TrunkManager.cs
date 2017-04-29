@@ -28,7 +28,7 @@ public class TrunkManager : MonoBehaviour {
 
 	private void InitializeTrunk () {
 		for (int i = 0; i < 5; i++) {
-			PoolManager.instance.ReuseObject (trunkPrefab, new Vector3 (stump.position.x, stump.position.y + (4 * (i + 1)), 1), Quaternion.identity);
+			PoolManager.instance.ReuseObject (trunkPrefab, new Vector3 (stump.position.x, stump.position.y + (4 * (i + 1)), -1), Quaternion.identity);
 		}
 	}
 

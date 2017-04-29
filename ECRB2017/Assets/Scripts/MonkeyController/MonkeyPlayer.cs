@@ -29,12 +29,17 @@ public class MonkeyPlayer : MonoBehaviour {
 
     Vector2 directionalInput;
 
+	private Transform hitbox;
+	private Vector3 hitboxPosition = new Vector3 (0.4f, -0.1f, 0);
+
 	[System.NonSerialized]
     public bool wallSliding;
     int wallDirectionX;
 
 	void Start () {
         controller = GetComponent<Controller2D> ();
+
+		hitbox = transform.Find ("AttackHitbox");
 
         gravity = -(2 * maxJumpHeight) / Mathf.Pow (timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs (gravity) * timeToJumpApex;
@@ -48,6 +53,8 @@ public class MonkeyPlayer : MonoBehaviour {
         controller.Move (velocity * Time.deltaTime, directionalInput);
         controller.animator.SetFloat ("velocityX", Mathf.Abs (velocity.x));
         controller.animator.SetFloat ("velocityY", velocity.y);
+		float walkSpeed = Mathf.Abs (velocity.x) / 5f;
+		controller.animator.SetFloat ("walkSpeed", (walkSpeed < 0.01f) ? 1 : walkSpeed);
 		controller.animator.SetBool ("facingRight", Mathf.Sign (velocity.x) == 1);
 
         if (controller.collisions.above || controller.collisions.below) {
@@ -61,6 +68,9 @@ public class MonkeyPlayer : MonoBehaviour {
 
     public void SetDirectionalInput (Vector2 input) {
         directionalInput = input;
+		if (input.x != 0) {
+			hitbox.localPosition = new Vector3 (hitboxPosition.x * Mathf.Sign (input.x), hitboxPosition.y, hitboxPosition.z);
+		}
     }
 
     public void OnJumpInputDown () {
@@ -102,7 +112,12 @@ public class MonkeyPlayer : MonoBehaviour {
         }
     }
 
-    public void OnNormalAttackInput (int comboNumber) {
+	public void KnockBackPlayer (int hitDirection) {
+		float xMultiplier = Mathf.Abs (velocity.x / 6) + 1;
+		velocity.x = minJumpVelocity * hitDirection * xMultiplier / 2;
+	}
+
+	public void OnNormalAttackInput (int comboNumber) {
         float xMultiplier = Mathf.Abs (velocity.x / 8) + 1;
         velocity.x = minJumpVelocity * controller.collisions.faceDirection * xMultiplier / 3;
     }
@@ -111,12 +126,12 @@ public class MonkeyPlayer : MonoBehaviour {
         if (!controller.collisions.slidingDownMaxSlope) {
             float xMultiplier = Mathf.Abs (velocity.x / 16) + 1;
             velocity.x = minJumpVelocity * faceDirection * xMultiplier;
-            //controller.animator.SetTrigger ("ForwardSwordAttack");
+            controller.animator.SetTrigger ("ForwardAttack");
         }
     }
 
     public void OnUpAttackInput (int faceDirection) {
-        velocity.x = minJumpVelocity * faceDirection;
+        velocity.x = minJumpVelocity / 2 * faceDirection;
         velocity.y = maxJumpVelocity;
         //controller.animator.SetTrigger ("UpwardSwordAttack");
     }
