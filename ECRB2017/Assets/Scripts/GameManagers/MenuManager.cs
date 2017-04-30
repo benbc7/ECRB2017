@@ -21,6 +21,13 @@ public class MenuManager : MonoBehaviour {
 		}
 	}
 
+	[Header ("Audio")]
+	public AudioClip popClip;
+	public AudioClip joinClip;
+	public AudioClip quitClip;
+
+	private AudioSource audioSource;
+
 	private void Awake () {
 		gameManager = FindObjectOfType<GameManager> ();
 	}
@@ -50,9 +57,15 @@ public class MenuManager : MonoBehaviour {
 				mainIndicators [i].SetActive (false);
 			}
 			mainIndicators [indicatorIndex].SetActive (true);
+
+			audioSource.pitch = 1;
+			audioSource.PlayOneShot (popClip);
+
 		} else if (input == "Select") {
 			if (indicatorIndex == 0 && readyToPlay) {
 				gameManager.StartGame ();
+				audioSource.pitch = 1.5f;
+				audioSource.PlayOneShot (popClip);
 			} else if (indicatorIndex == 1) {
 				ExitGame ();
 			}
@@ -75,6 +88,8 @@ public class MenuManager : MonoBehaviour {
 		playersJoined [playerIndex] = true;
 		gameManager.SpawnMonkey (playerIndex);
 		numberOfPlayers++;
+		audioSource.pitch = 1;
+		audioSource.PlayOneShot (joinClip);
 	}
 
 	private void OnPlayerQuit (int playerIndex) {
@@ -82,6 +97,8 @@ public class MenuManager : MonoBehaviour {
 			playersJoined [playerIndex] = false;
 			gameManager.OnPlayerQuit (playerIndex);
 			numberOfPlayers--;
+			audioSource.pitch = 1;
+			audioSource.PlayOneShot (quitClip);
 		}
 	}
 }

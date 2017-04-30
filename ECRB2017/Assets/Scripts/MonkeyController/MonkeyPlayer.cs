@@ -27,6 +27,8 @@ public class MonkeyPlayer : MonoBehaviour {
 
     Controller2D controller;
 
+	MonkeyAudioManager audioManager;
+
     Vector2 directionalInput;
 
 	private Transform hitbox;
@@ -38,6 +40,7 @@ public class MonkeyPlayer : MonoBehaviour {
 
 	void Start () {
         controller = GetComponent<Controller2D> ();
+		audioManager = GetComponent<MonkeyAudioManager> ();
 
 		hitbox = transform.Find ("AttackHitbox");
 
@@ -80,16 +83,25 @@ public class MonkeyPlayer : MonoBehaviour {
                 velocity.x = -wallDirectionX * wallJumpClimb.x;
                 velocity.y = wallJumpClimb.y;
                 controller.animator.Play ("Jump");
+				if (Random.Range (0,10) > 7) {
+					audioManager.PlayMonkeyChatter ();
+				}
 				controller.UpdateSpriteFaceDirection (-Mathf.Sign (velocity.x));
 			} else if (directionalInput.x == 0) {
                 velocity.x = -wallDirectionX * wallJumpOff.x;
                 velocity.y = wallJumpOff.y;
                 controller.animator.Play ("Jump");
+				if (Random.Range (0, 10) > 7) {
+					audioManager.PlayMonkeyChatter ();
+				}
 				controller.UpdateSpriteFaceDirection (Mathf.Sign (velocity.x));
 			} else {
                 velocity.x = -wallDirectionX * wallLeap.x;
                 velocity.y = wallLeap.y;
                 controller.animator.Play ("Jump");
+				if (Random.Range (0, 10) > 7) {
+					audioManager.PlayMonkeyChatter ();
+				}
 				controller.UpdateSpriteFaceDirection (Mathf.Sign (velocity.x));
 			}
         }
@@ -99,11 +111,17 @@ public class MonkeyPlayer : MonoBehaviour {
                     velocity.y = maxJumpVelocity * controller.collisions.slopeNormal.y;
                     velocity.x = maxJumpVelocity * controller.collisions.slopeNormal.x;
                     controller.animator.Play ("Jump");
-                }
+					if (Random.Range (0, 10) > 7) {
+						audioManager.PlayMonkeyChatter ();
+					}
+				}
             } else  {
                 velocity.y = maxJumpVelocity;
                 controller.animator.Play ("Jump");
-            }
+				if (Random.Range (0, 10) > 7) {
+					audioManager.PlayMonkeyChatter ();
+				}
+			}
         }
     }
 
@@ -114,6 +132,12 @@ public class MonkeyPlayer : MonoBehaviour {
     }
 
 	public void KnockBackPlayer (int hitDirection) {
+		if (Random.Range (0, 10) > 7) {
+			audioManager.PlayMonkeyChatter ();
+		}
+		if (Random.Range (0, 10) > 5) {
+			audioManager.PlayHits ();
+		}
 		float xMultiplier = Mathf.Abs (velocity.x / 4) + 1;
 		velocity.x = minJumpVelocity * hitDirection * xMultiplier / 2;
 		velocity.y = minJumpVelocity / 3f;
@@ -123,25 +147,29 @@ public class MonkeyPlayer : MonoBehaviour {
         float xMultiplier = Mathf.Abs (velocity.x / 8) + 1;
         velocity.x = minJumpVelocity * controller.collisions.faceDirection * xMultiplier / 3;
 		controller.animator.SetTrigger ("Punch");
-    }
+		audioManager.PlayWhoosh ();
+	}
 
     public void OnForwardAttackInput (int faceDirection) {
         if (!controller.collisions.slidingDownMaxSlope) {
             float xMultiplier = Mathf.Abs (velocity.x / 16) + 1;
             velocity.x = minJumpVelocity * faceDirection * xMultiplier;
             controller.animator.SetTrigger ("ForwardAttack");
-        }
+			audioManager.PlayWhoosh ();
+		}
     }
 
     public void OnUpAttackInput (int faceDirection) {
         velocity.x = minJumpVelocity / 2 * faceDirection;
         velocity.y = maxJumpVelocity;
         controller.animator.SetTrigger ("UpAttack");
-    }
+		audioManager.PlayWhoosh ();
+	}
 
     public void OnDownAttackInput () {
         if (!controller.collisions.below) {
             velocity.y = minJumpVelocity / -1f;
+			audioManager.PlayWhoosh ();
         }
         controller.animator.SetTrigger ("DownAttack");
     }
@@ -151,6 +179,7 @@ public class MonkeyPlayer : MonoBehaviour {
 		velocity.x = maxJumpVelocity * 0.9f * faceDirection;
 		velocity.y = minJumpVelocity / 3f;
 		controller.animator.Play ("Roll");
+		audioManager.PlayGroundPound ();
 	}
 
     void HandleWallSliding () {

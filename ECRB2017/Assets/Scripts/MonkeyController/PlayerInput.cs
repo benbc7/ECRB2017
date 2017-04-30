@@ -24,11 +24,13 @@ public class PlayerInput : MonoBehaviour {
 
 	MonkeyPlayer player;
 	Controller2D controller2D;
+	MonkeyAudioManager audioManager;
 
 	void Start () {
 		joystick = ReInput.players.GetPlayer (playerNumber);
 		player = GetComponent<MonkeyPlayer> ();
 		controller2D = GetComponent<Controller2D> ();
+		audioManager = GetComponent<MonkeyAudioManager> ();
 	}
 
 	void Update () {
@@ -116,6 +118,7 @@ public class PlayerInput : MonoBehaviour {
 
 	public void OnPlayerDeath () {
 		alive = false;
+		audioManager.PlayDying ();
 	}
 
 	public void Respawn () {
