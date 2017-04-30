@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
@@ -16,9 +17,13 @@ public class GameManager : MonoBehaviour {
 	public Text[] livesTexts;
 	public GameObject[] gameOver;
 
+	public AudioSource trackAudioSource;
+	public AudioSource soundEffectSource;
+	public AudioClip respawnClip;
+
 	[Header ("Game Setup")]
 
-	public bool activeOnStart;
+	public bool playing;
 
 	[Range (0, 11)]
 	public int numberOfLives;
@@ -32,25 +37,41 @@ public class GameManager : MonoBehaviour {
 
 	private GameObject cam;
 	private TrunkManager trunkManager;
+	private MenuManager menuManager;
 	private int numberOfMonkies;
 
 	private void Awake () {
 		trunkManager = FindObjectOfType<TrunkManager> ();
+		menuManager = FindObjectOfType<MenuManager> ();
 		cam = GameObject.Find ("Main Camera");
+	}
 
-		if (activeOnStart) {
-			cam.SendMessage ("Activate");
+	private void Update () {
+		if (livesRemaining[0] == 0 && livesRemaining[1] == 0 && livesRemaining[2] == 0 && playing) {
+			SceneManager.LoadScene (0);
 		}
-
 	}
 
 	public void StartGame () {
 		cam.SendMessage ("Activate");
+		menuManager.gameObject.SetActive (false);
+		playing = true;
+		StartCoroutine (FadeUpTrack ());
 		for (int i = 0; i < monkeys.Count; i++) {
 			if (monkeys[i] != null) {
 				monkeyUIPanels [i].SetActive (true);
 				livesTexts [i].text = "x" + livesRemaining [i];
 			}
+		}
+	}
+
+	private IEnumerator FadeUpTrack () {
+		while (true) {
+			trackAudioSource.volume += 0.01f;
+			if (trackAudioSource.volume >= 1) {
+				break;
+			}
+			yield return new WaitForEndOfFrame ();
 		}
 	}
 
@@ -67,6 +88,8 @@ public class GameManager : MonoBehaviour {
 		Instantiate (spawnPlatform, respawnPoints [nextPointIndex].position, Quaternion.identity);
 		monkeys [playerNumber].transform.position = respawnPoints [nextPointIndex].position + Vector3.up * 2;
 		monkeys [playerNumber].SendMessage ("Respawn");
+		soundEffectSource.pitch = Random.Range (0.75f, 1.25f);
+		soundEffectSource.PlayOneShot (respawnClip);
 
 		nextPointIndex++;
 		if (nextPointIndex >= respawnPoints.Length) {
@@ -76,7 +99,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void PlayerLost (int playerNumber) {
-		gameOver [playerNumber].SetActive (true);
+		//gameOver [playerNumber].SetActive (true);
 
 	}
 

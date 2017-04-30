@@ -2,25 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Rewired;
 public class nodeManager : MonoBehaviour {
 
     public bool rightSide;
     public bool isOccupied;
     CircleCollider2D col;
     public Transform pivot;
-    public ArborManager AM;
-	// Use this for initialization
-	void Start ()
+    public ArboristController AC;
+    public Sprite normalNode;
+    public Sprite highlightedNode;
+    public SpriteRenderer SR;
+
+    Player joystick;
+    // Use this for initialization
+    void Start ()
     {
+        joystick = ReInput.players.GetPlayer(0);
         col = GetComponent<CircleCollider2D>();
-        AM = FindObjectOfType<ArborManager>();
+        AC = FindObjectOfType<ArboristController>();
+        SR = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-		
-        if (Input.GetKeyUp(KeyCode.Space) && isOccupied == true)
+        if (isOccupied == true)
+            SR.sprite = highlightedNode;
+        else
+            SR.sprite = normalNode;
+
+
+        if (joystick.GetButtonUp("PlaceBranch") && isOccupied == true)
         {
             col.enabled = false;
         }
@@ -32,29 +45,31 @@ public class nodeManager : MonoBehaviour {
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-
-        if (isOccupied == false)
-            {
-             
-         
-                isOccupied = true;
-                other.transform.position = pivot.transform.position; 
-            }
-        else
+        if (other.name == "ArboristController")
         {
+            if (isOccupied == false)
+            {
+                isOccupied = true;
+                //other.transform.position = pivot.transform.position;
+            }
+            else
+            {
 
+            }
         }
         
     }
     void OnTriggerExit2D(Collider2D other)
     {
-
-        if (isOccupied == true)
+        if (other.name == "ArboristController")
         {
+            if (isOccupied == true)
+            {
 
 
-            isOccupied = false;
-            
+                isOccupied = false;
+
+            }
         }
 
     }

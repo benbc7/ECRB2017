@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Rewired;
 public class ArboristController : MonoBehaviour
 {
+    public Rigidbody2D rb;
     public Image[] branchButtons;
     public float moveSpeed;
     public bool canSpawn = false;
@@ -17,6 +18,15 @@ public class ArboristController : MonoBehaviour
     public int maxBranchIndex;
     public Camera cam;
     public float joystickDeadZone;
+    public bool fistDrop;
+    public float fistTimer;
+    public Sprite leftFist;
+    public Sprite leftHand;
+    public Sprite rightFist;
+    public Sprite rightHand;
+    public SpriteRenderer LHSR;
+    public SpriteRenderer RHSR;
+
     Vector2 directionalInput;
     Player joystick;
     // Use this for initialization
@@ -29,19 +39,45 @@ public class ArboristController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         directionalInput = new Vector2(joystick.GetAxisRaw("CursorHorizontal"), joystick.GetAxisRaw("CursorVertical"));
+        Vector3 targetPos = new Vector3();
+        Debug.Log("" + targetPos);
         if (directionalInput.x <= joystickDeadZone && directionalInput.x >= -joystickDeadZone)
-        transform.Translate(Vector3.right * Time.deltaTime * directionalInput.x * moveSpeed);
+            rb.AddForce(Vector2.right * directionalInput.x * moveSpeed * Time.deltaTime);
         if (directionalInput.y <= joystickDeadZone && directionalInput.y >= -joystickDeadZone)
-        transform.Translate(Vector3.up * Time.deltaTime * directionalInput.y * moveSpeed);
+            rb.AddForce(Vector2.up * directionalInput.y * moveSpeed * Time.deltaTime);
 
+
+
+        targetPos.x += directionalInput.x * moveSpeed * Time.deltaTime;
+        targetPos.y += directionalInput.y * moveSpeed * Time.deltaTime;
+        targetPos.z = -0;
+
+        transform.position += targetPos;
+
+        //Debug.Log("" + targetPos);
+    }
+    void Update()
+    {
+        if (fistDrop == true)
+        {
+            fistTimer -= Time.deltaTime;
+            if (fistTimer <= 0)
+            {
+                fistTimer = 0;
+                fistDrop = false;
+                UpdateHands(leftHand, rightHand);
+              
+            }
+        }
         if (joystick.GetButtonDown("PlaceBranch") && currentBranch == null && canSpawn == true)
         {
+
+            print("AC pb pressed");
             GameObject B = Instantiate(masterBranch, branchSpawnLoc.transform.position, branchSpawnLoc.transform.rotation);
             currentBranch = B;
-
             BM = currentBranch.GetComponent<BranchMovement>();
             BM.GetComponent<Rigidbody2D>().isKinematic = true;
             if (NM.rightSide == false)
@@ -70,6 +106,11 @@ public class ArboristController : MonoBehaviour
         r = g = b = a = 255f / 255f;
         col = new Color(r, g, b, a);
         branchButtons[ind].color = col;
+    }
+    public void UpdateHands(Sprite _leftHand, Sprite _rightHand)
+    {
+        LHSR.sprite = _leftHand;
+        RHSR.sprite = _rightHand;
     }
     void OnTriggerStay2D(Collider2D other)
     {

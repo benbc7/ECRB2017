@@ -133,7 +133,10 @@ MonoBehaviour:
   rightSide: 1
   isOccupied: 0
   pivot: {fileID: 4718724002380406}
-  AM: {fileID: 0}
+  AC: {fileID: 0}
+  normalNode: {fileID: 21300000, guid: 9cad32f0c0795934a88c20aef039a01f, type: 3}
+  highlightedNode: {fileID: 21300000, guid: 69612abb0ff7fcb4b8d52b9bbfa9797d, type: 3}
+  SR: {fileID: 212865060008489668}
 --- !u!212 &212865060008489668
 SpriteRenderer:
   m_ObjectHideFlags: 1

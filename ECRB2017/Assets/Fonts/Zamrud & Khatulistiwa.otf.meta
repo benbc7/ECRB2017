@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 0cd89480f8140f7479c79fe861ef8b9f
+timeCreated: 1493581057
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Zamrud & Khatulistiwa
+  fontNames:
+  - Zamrud & Khatulistiwa
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

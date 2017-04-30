@@ -8,6 +8,8 @@ public class MenuManager : MonoBehaviour {
 
 	public GameObject[] mainIndicators;
 
+	public GameObject mainPanel;
+
 	private GameManager gameManager;
 
 	private int indicatorIndex;
@@ -30,6 +32,7 @@ public class MenuManager : MonoBehaviour {
 
 	private void Awake () {
 		gameManager = FindObjectOfType<GameManager> ();
+		audioSource = GetComponent<AudioSource> ();
 	}
 
 	public void PlayerInput (int playerIndex, string input) {
@@ -64,6 +67,7 @@ public class MenuManager : MonoBehaviour {
 		} else if (input == "Select") {
 			if (indicatorIndex == 0 && readyToPlay) {
 				gameManager.StartGame ();
+				mainPanel.SetActive (false);
 				audioSource.pitch = 1.5f;
 				audioSource.PlayOneShot (popClip);
 			} else if (indicatorIndex == 1) {
