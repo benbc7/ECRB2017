@@ -153,6 +153,11 @@ public class Controller2D : RaycastController {
                 }
 
                 collisions.below = directionY == -1;
+
+				if (collisions.below && hit.collider.tag == "JumpThrough") {
+					hit.transform.BroadcastMessage ("PlayParticleSystem", SendMessageOptions.DontRequireReceiver);
+				}
+
                 animator.SetBool ("isGrounded", directionY == -1);
                 collisions.above = directionY == 1;
             }
