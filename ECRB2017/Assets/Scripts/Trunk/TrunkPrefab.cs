@@ -35,8 +35,9 @@ public class TrunkPrefab : PoolObject {
 		for (int i = 0; i < numberOfNodes; i++) {
 			position.x *= -1;
 			position.y = Random.Range (transform.position.y - 1.75f, transform.position.y + 1.75f);
-			position.z = -4f;
+			position.z = -3f;
 			var node = PoolManager.instance.ReuseObject (setPiecePrefabs.nodePrefab, position, Quaternion.identity);
+			node.SendMessage ("ResetTimer");
 			if (position.x < 0) {
 				node.transform.localScale = new Vector3 (-1, 1, 1);
 				node.GetComponent<nodeManager> ().rightSide = false;
@@ -70,7 +71,7 @@ public class TrunkPrefab : PoolObject {
 		for (int i = 0; i < numberOfKnots; i++) {
 			position.x = Random.Range (-0.4f, 0.4f);
 			position.y = Random.Range (transform.position.y - 1.75f, transform.position.y + 1.75f);
-			position.z = -4f;
+			position.z = -3.5f;
 			rotation.z = Random.Range (-2, 2) * 90;
 			var knot = PoolManager.instance.ReuseObject (setPiecePrefabs.knotPrefabs [Random.Range (0, setPiecePrefabs.knotPrefabs.Length)], position, Quaternion.Euler (rotation));
 			if (position.x < 0) {

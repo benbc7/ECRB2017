@@ -14,7 +14,7 @@ public class TrunkManager : MonoBehaviour {
 
 	private void Start () {
 		PoolManager.instance.CreatePool (trunkPrefab, 5);
-		PoolManager.instance.CreatePool (setPiecePrefabs.nodePrefab, 20);
+		PoolManager.instance.CreatePool (setPiecePrefabs.nodePrefab, 25);
 		PoolManager.instance.CreatePool (setPiecePrefabs.holePrefab, 5);
 		for (int i = 0; i < setPiecePrefabs.tinyBranchPrefabs.Length; i++) {
 			PoolManager.instance.CreatePool (setPiecePrefabs.tinyBranchPrefabs [i], 20);

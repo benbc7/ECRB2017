@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 50301578549345696}
   - component: {fileID: 58951710201414182}
   - component: {fileID: 95705055313030496}
+  - component: {fileID: 114052669295186816}
   m_Layer: 12
   m_Name: ArborManager
   m_TagString: Untagged
@@ -179,7 +180,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1502306791578110}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.038, y: -1.774, z: -3}
+  m_LocalPosition: {x: -3.038, y: -1.774, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4223202085599306}
@@ -276,6 +277,35 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114052669295186816
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1502306791578110}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38f770bd17a196b4a976636eb95ad24f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  branchButtons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  moveSpeed: 0.1
+  canSpawn: 0
+  masterBranch: {fileID: 1582269266919670, guid: c69e2701c0e826340baf51c67a0620f0,
+    type: 2}
+  currentBranch: {fileID: 0}
+  BM: {fileID: 0}
+  NM: {fileID: 0}
+  branchSpawnLoc: {fileID: 0}
+  branchIndex: 0
+  maxBranchIndex: 0
+  cam: {fileID: 0}
+  joystickDeadZone: 0.1
 --- !u!114 &114447760302453056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -288,7 +318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isHand: 0
-  origin: {fileID: 4181810976332022}
+  origin: {fileID: 4421171768101140}
   cursor: {fileID: 4421171768101140}
   distance: 2
   isClose: 0
