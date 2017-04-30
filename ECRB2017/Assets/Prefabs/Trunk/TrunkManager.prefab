@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1605119875683378}
+  m_IsPrefabParent: 1
+--- !u!1 &1605119875683378
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4773487637511660}
+  - component: {fileID: 114570162286312886}
+  m_Layer: 0
+  m_Name: TrunkManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4773487637511660
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1605119875683378}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.27392235, y: -0.01892579, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114570162286312886
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1605119875683378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 871450039749dc04a8b5c5d93915f6b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trunkPrefab: {fileID: 1395872112927090, guid: f5f37a38d18f2bd459eb5ac748870922,
+    type: 2}
+  setPiecePrefabs:
+    nodePrefab: {fileID: 1229411630778196, guid: 1e4ee41735ecf0148aac64c811a255b0,
+      type: 2}
+    holePrefab: {fileID: 1312423026688860, guid: 50410e69c1430ae4397b44039e892498,
+      type: 2}
+    tinyBranchPrefabs:
+    - {fileID: 1932956224590160, guid: 12a0674593ad1e4458d727fff1830b96, type: 2}
+    - {fileID: 1774994679574444, guid: 26b45bd6f7dd6294ea2b6dd897fa034c, type: 2}
+    - {fileID: 1032897798447382, guid: 3a16b93ab7ca1d740ab9249eeec0e708, type: 2}
+    - {fileID: 1609710065614930, guid: b1ae6e7e3600bed45a59c81fdf158bcb, type: 2}
+    knotPrefabs:
+    - {fileID: 1931506392094014, guid: d232b9dbb74152346bdba1c71636e20c, type: 2}
+    - {fileID: 1159786599656610, guid: b98da7be2453d9641a40078a5ae5408c, type: 2}
+    - {fileID: 1035675811235806, guid: d462bf61516d27b4eb36746354a1a9c1, type: 2}
+    - {fileID: 1788727219396340, guid: 95f8e5bd5470c31479013b43cbd59d34, type: 2}

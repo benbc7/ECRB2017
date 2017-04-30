@@ -6,9 +6,9 @@ using Rewired;
 
 public class MenuManager : MonoBehaviour {
 
-	public MenuUIElements menuUIElements;
+	public GameObject[] mainIndicators;
 
-	private PlayerManager playerManager;
+	private GameManager gameManager;
 
 	private int indicatorIndex;
 
@@ -22,19 +22,17 @@ public class MenuManager : MonoBehaviour {
 		}
 	}
 
-	private bool playerSetupScreen;
-
 	private void Awake () {
 		playersJoined [0] = true;
 		playersReady [0] = true;
-		playerManager = FindObjectOfType<PlayerManager> ();
+		gameManager = FindObjectOfType<GameManager> ();
 	}
 
 	public void PlayerInput (int playerIndex, string input) {
-		if (!playerSetupScreen && playerIndex == 0) {
+		if (playerIndex == 0) {
 			MainMenu (input);
-		} else if (playerSetupScreen) {
-			PlayerSetupScreen (playerIndex, input);
+		} else {
+			PlayerSetup (playerIndex, input);
 		}
 	}
 
@@ -43,34 +41,30 @@ public class MenuManager : MonoBehaviour {
 			if (input == "Up") {
 				indicatorIndex--;
 				if (indicatorIndex < 0) {
-					indicatorIndex = menuUIElements.mainIndicators.Length - 1;
+					indicatorIndex = mainIndicators.Length - 1;
 				}
 			} else if (input == "Down") {
 				indicatorIndex++;
-				if (indicatorIndex > menuUIElements.mainIndicators.Length - 1) {
+				if (indicatorIndex > mainIndicators.Length - 1) {
 					indicatorIndex = 0;
 				}
 			}
-			for (int i = 0; i < menuUIElements.mainIndicators.Length; i++) {
-				menuUIElements.mainIndicators [i].SetActive (false);
+			for (int i = 0; i < mainIndicators.Length; i++) {
+				mainIndicators [i].SetActive (false);
 			}
-			menuUIElements.mainIndicators [indicatorIndex].SetActive (true);
+			mainIndicators [indicatorIndex].SetActive (true);
 		} else if (input == "Select") {
-			if (indicatorIndex == 0) {
-				menuUIElements.panels [0].SetActive (false);
-				menuUIElements.panels [1].SetActive (true);
-				playerSetupScreen = true;
+			if (indicatorIndex == 0 && readyToPlay) {
+				StartGame ();
 			} else if (indicatorIndex == 1) {
 				ExitGame ();
 			}
 		}
 	}
 
-	private void PlayerSetupScreen (int playerIndex, string input) {
+	private void PlayerSetup (int playerIndex, string input) {
 		if (input == "Start" && !playersJoined [playerIndex]) {
 			OnPlayerJoin (playerIndex);
-		} else if (input == "Start" && playerIndex == 0 && readyToPlay) {
-			StartGame ();
 		}
 	}
 
@@ -81,8 +75,7 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	private void StartGame () {
-		menuUIElements.panels [1].SetActive (false);
-		playerManager.StartGame (playersJoined[0], playersJoined [1], playersJoined [2], playersJoined [3]);
+		gameManager.StartGame ();
 	}
 
 	private void ExitGame () {
@@ -92,8 +85,6 @@ public class MenuManager : MonoBehaviour {
 	private void OnPlayerJoin (int playerIndex) {
 		playersJoined [playerIndex] = true;
 		numberOfPlayers++;
-		menuUIElements.joinTexts [playerIndex - 1].SetActive (false);
-		menuUIElements.readyTexts [playerIndex - 1].SetActive (true);
 	}
 
 	private void OnPlayerQuit (int playerIndex) {
@@ -104,12 +95,4 @@ public class MenuManager : MonoBehaviour {
 			numberOfPlayers--;
 		}
 	}
-}
-
-[System.Serializable]
-public class MenuUIElements {
-	public GameObject[] panels;
-	public GameObject[] mainIndicators;
-	public GameObject[] joinTexts;
-	public GameObject[] readyTexts;
 }

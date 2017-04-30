@@ -14,7 +14,6 @@ public class ArborManager : MonoBehaviour {
     public Transform branchSpawnLoc;
     public int branchIndex;
     public int maxBranchIndex;
-    public Text branchIndexTxt;
     public Camera cam;
 	// Use this for initialization
 	void Start () {
@@ -27,24 +26,21 @@ public class ArborManager : MonoBehaviour {
     {
 
         Vector3 p = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cam.nearClipPlane));
-        transform.position = new Vector3(p.x, p.y, -1);
+        transform.position = new Vector3(p.x, p.y, -5);
         if (Input.GetKeyUp(KeyCode.Mouse0) && currentBranch == null && canSpawn == true)
         {
             GameObject B = Instantiate(masterBranch, branchSpawnLoc.transform.position, branchSpawnLoc.transform.rotation);
             currentBranch = B;
 
             BM = currentBranch.GetComponent<BranchMovement>();
-            if (NM.leftSide == true)
+			BM.GetComponent<Rigidbody2D> ().isKinematic = true;
+            if (NM.rightSide == false)
             {
                 BM.Flip();
             }
             UpdateBranchButtons(BM.branchIndex);
         }
 	}
-    public void UpdateIndexUI(int index)
-    {
-        branchIndexTxt.text = "" + index;
-    }
 
     public void UpdateBranchButtons(int ind)
     {
@@ -65,7 +61,7 @@ public class ArborManager : MonoBehaviour {
         col = new Color(r, g, b, a);
         branchButtons[ind].color = col;
     }
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerStay2D(Collider2D other)
     {
         
         if (other.tag == "Node")

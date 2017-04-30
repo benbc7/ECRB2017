@@ -43,13 +43,15 @@ public class Controller2D : RaycastController {
             }
         }
 
-        HorizontalCollisions (ref moveAmount);
+		
 
-        if (moveAmount.y != 0) {
+		if (moveAmount.y != 0) {
             VerticalCollisions (ref moveAmount);
         }
 
-        transform.Translate (moveAmount);
+		HorizontalCollisions (ref moveAmount);
+
+		transform.Translate (moveAmount);
 
         if (standingOnPlatform) {
             collisions.below = true;
@@ -76,8 +78,7 @@ public class Controller2D : RaycastController {
                 if (hit.distance == 0) {
                     continue;
                 }
-
-                if (hit.collider.tag == "JumpThrough") {
+                if (hit.collider.tag == "JumpThrough" && collisions.below && !collisions.climbingSlope) {
 					if (collisions.walkingThroughPlatform) {
 						continue;
 					} else {
@@ -137,11 +138,11 @@ public class Controller2D : RaycastController {
                     if (collisions.fallingThroughPlatform) {
                         continue;
                     }
-                    if (playerInput.y <  -0.9f) {
-                        collisions.fallingThroughPlatform = true;
-                        Invoke ("ResetFallingThroughPlatform", 0.1f);
-                        continue;
-                    }
+                    //if (playerInput.y <  -0.9f) {
+                    //    collisions.fallingThroughPlatform = true;
+                    //    Invoke ("ResetFallingThroughPlatform", 0.1f);
+                    //    continue;
+                    //}
                 }
 
                 moveAmount.y = (hit.distance - skinWidth) * directionY;
@@ -184,6 +185,7 @@ public class Controller2D : RaycastController {
             collisions.below = true;
             animator.SetBool ("isGrounded", true);
             collisions.climbingSlope = true;
+			print ("ClimbingSlope");
             collisions.slopeAngle = slopeAngle;
             collisions.slopeNormal = slopeNormal;
         }        

@@ -27,7 +27,7 @@ public class TrunkPrefab : PoolObject {
 	}
 
 	private void SpawnNodes () {
-		int numberOfNodes = Random.Range (3, 5);
+		int numberOfNodes = Random.Range (2, 5);
 
 		Vector3 position = Vector3.zero;
 		position.x = 0.27f;
@@ -39,6 +39,7 @@ public class TrunkPrefab : PoolObject {
 			var node = PoolManager.instance.ReuseObject (setPiecePrefabs.nodePrefab, position, Quaternion.identity);
 			if (position.x < 0) {
 				node.transform.localScale = new Vector3 (-1, 1, 1);
+				node.GetComponent<nodeManager> ().rightSide = false;
 			}
 		}
 	}

@@ -11,7 +11,6 @@ public class PlayerInput : MonoBehaviour {
 
 	Vector2 directionalInput;
 
-	bool charging;
 	bool attacking;
 	bool readyToRoll = true;
 	bool stunned;
@@ -42,7 +41,7 @@ public class PlayerInput : MonoBehaviour {
 	}
 
 	void MovementInput () {
-		if (!charging && !attacking && !stunned) {
+		if (!attacking && !stunned) {
 			directionalInput = new Vector2 (joystick.GetAxisRaw ("Horizontal"), joystick.GetAxisRaw ("Vertical"));
 			player.SetDirectionalInput (directionalInput);
 			if (directionalInput.x != 0 && controller2D.collisions.below) {

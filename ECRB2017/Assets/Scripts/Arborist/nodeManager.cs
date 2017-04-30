@@ -5,7 +5,6 @@ using UnityEngine;
 public class nodeManager : MonoBehaviour {
 
     public bool rightSide;
-    public bool leftSide;
     public bool isOccupied;
     CircleCollider2D col;
     public Transform pivot;
@@ -43,7 +42,7 @@ public class nodeManager : MonoBehaviour {
             else if (!rightSide && other.gameObject.GetComponent<BranchMovement>().facingRight == false)
             {
                 isOccupied = true;
-                other.transform.position = pivot.transform.position;
+                other.transform.position = pivot.transform.position; 
             }
         }
     }

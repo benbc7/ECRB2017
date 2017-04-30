@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rightSide: 0
-  leftSide: 1
+  leftSide: 0
   isOccupied: 0
   pivot: {fileID: 4382557851642570}
   AM: {fileID: 0}

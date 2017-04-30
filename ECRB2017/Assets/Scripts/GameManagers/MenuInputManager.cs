@@ -24,25 +24,25 @@ public class MenuInputManager : MonoBehaviour {
 	}
 
 	private void GetInput (int i) {
-		if (players [i].GetButton ("Start")) {
+		if (players [i].GetButtonDown ("Start")) {
 			menuManager.PlayerInput (i, "Start");
 		}
-		if (players [i].GetButton ("Select")) {
+		if (players [i].GetButtonDown ("Select")) {
 			menuManager.PlayerInput (i, "Select");
 		}
-		if (players [i].GetButton ("Back")) {
+		if (players [i].GetButtonDown ("Back")) {
 			menuManager.PlayerInput (i, "Back");
 		}
-		if (players [i].GetButton ("Up")) {
+		if (players [i].GetButtonDown ("Up")) {
 			menuManager.PlayerInput (i, "Up");
 		}
-		if (players [i].GetButton ("Down")) {
+		if (players [i].GetButtonDown ("Down")) {
 			menuManager.PlayerInput (i, "Down");
 		}
-		if (players [i].GetButton ("Right")) {
+		if (players [i].GetButtonDown ("Right")) {
 			menuManager.PlayerInput (i, "Right");
 		}
-		if (players [i].GetButton ("Left")) {
+		if (players [i].GetButtonDown ("Left")) {
 			menuManager.PlayerInput (i, "Left");
 		}
 	}
