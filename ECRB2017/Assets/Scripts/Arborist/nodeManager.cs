@@ -13,7 +13,7 @@ public class nodeManager : MonoBehaviour {
 	void Start ()
     {
         col = GetComponent<CircleCollider2D>();
-        AM = GameObject.Find("ArborManager").GetComponent<ArborManager>();
+        AM = FindObjectOfType<ArborManager>();
 	}
 	
 	// Update is called once per frame
