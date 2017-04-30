@@ -55,7 +55,7 @@ public class MonkeyPlayer : MonoBehaviour {
         controller.animator.SetFloat ("velocityY", velocity.y);
 		float walkSpeed = Mathf.Abs (velocity.x) / 5f;
 		controller.animator.SetFloat ("walkSpeed", (walkSpeed < 0.01f) ? 1 : walkSpeed);
-		controller.animator.SetBool ("facingRight", Mathf.Sign (velocity.x) == 1);
+		//controller.animator.SetBool ("facingRight", Mathf.Sign (velocity.x) == 1);
 
         if (controller.collisions.above || controller.collisions.below) {
             if (controller.collisions.slidingDownMaxSlope) {
@@ -69,6 +69,7 @@ public class MonkeyPlayer : MonoBehaviour {
     public void SetDirectionalInput (Vector2 input) {
         directionalInput = input;
 		if (input.x != 0) {
+			controller.animator.SetBool ("facingRight", Mathf.Sign (input.x) == 1);
 			hitbox.localPosition = new Vector3 (hitboxPosition.x * Mathf.Sign (input.x), hitboxPosition.y, hitboxPosition.z);
 		}
     }
@@ -142,7 +143,7 @@ public class MonkeyPlayer : MonoBehaviour {
         if (!controller.collisions.below) {
             velocity.y = minJumpVelocity / -1f;
         }
-        //controller.animator.SetTrigger ("DownwardSwordAttack");
+        controller.animator.SetTrigger ("DownAttack");
     }
 
 	public void OnRollInput (int faceDirection) {

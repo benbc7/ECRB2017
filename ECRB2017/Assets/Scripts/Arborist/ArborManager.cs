@@ -4,46 +4,64 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ArborManager : MonoBehaviour {
-    public GameObject[] branchPrefab;
+    public Image[] branchButtons;
+
+    public GameObject masterBranch;
+    public GameObject currentBranch;
+    public BranchMovement BM;
     public Transform branchSpawnLoc;
     public int branchIndex;
     public int maxBranchIndex;
     public Text branchIndexTxt;
+    public Camera cam;
 	// Use this for initialization
 	void Start () {
-		maxBranchIndex = branchPrefab.Length;
-	}
+        cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        maxBranchIndex = branchButtons.Length - 1;
+        GameObject B = Instantiate(masterBranch, branchSpawnLoc.position, branchSpawnLoc.rotation);
+        currentBranch = B;
+        BM = currentBranch.GetComponent<BranchMovement>();
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
-    if (Input.GetKeyDown(KeyCode.G))
+
+        Vector3 p = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cam.nearClipPlane));
+        transform.position = new Vector3(p.x, p.y, -1);
+        if (Input.GetKeyUp(KeyCode.Space) && currentBranch == null)
         {
-            if (branchIndex == 0)
-            {
-                branchIndex = branchPrefab.Length;
-            }
-            else
-            {
-                branchIndex--;
-            }
-            branchIndexTxt.text = "" + branchIndex;
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            if (branchIndex == branchPrefab.Length)
-            {
-                branchIndex = 0;
-            }
-            else
-            {
-                branchIndex++;
-            }
-            branchIndexTxt.text = "" + branchIndex;
-        }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            Instantiate(branchPrefab[branchIndex], branchSpawnLoc.position, branchSpawnLoc.rotation);
+            GameObject B = Instantiate(masterBranch, branchSpawnLoc.position, branchSpawnLoc.rotation);
+            currentBranch = B;
+
+            BM = currentBranch.GetComponent<BranchMovement>();
+
+            UpdateBranchButtons(BM.branchIndex);
         }
 	}
+    public void UpdateIndexUI(int index)
+    {
+        branchIndexTxt.text = "" + index;
+    }
+
+    public void UpdateBranchButtons(int ind)
+    {
+        Color col;
+        float r, g, b, a;
+
+        for (int i = 0; i <= maxBranchIndex; i++)
+        {
+            r = g = b = 255f / 255f;
+            a = 50f / 255f;
+            col = new Color(r, g, b, a);
+            branchButtons[i].color = col;
+
+
+        }
+       
+        r = g = b = a = 255f / 255f;
+        col = new Color(r, g, b, a);
+        branchButtons[ind].color = col;
+    }
+
 }
