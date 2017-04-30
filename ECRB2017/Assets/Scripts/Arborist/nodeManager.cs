@@ -20,7 +20,7 @@ public class nodeManager : MonoBehaviour {
 	void Update ()
     {
 		
-        if (Input.GetKeyDown(KeyCode.Space) && isOccupied == true)
+        if (Input.GetKeyUp(KeyCode.Space) && isOccupied == true)
         {
             col.enabled = false;
         }
@@ -32,19 +32,32 @@ public class nodeManager : MonoBehaviour {
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Branch")
-        {
-            if (rightSide && other.gameObject.GetComponent<BranchMovement>().facingRight == true)
+
+        if (isOccupied == false)
             {
-                isOccupied = true;
-                other.transform.position = pivot.transform.position;
-            }
-            else if (!rightSide && other.gameObject.GetComponent<BranchMovement>().facingRight == false)
-            {
+             
+         
                 isOccupied = true;
                 other.transform.position = pivot.transform.position; 
             }
+        else
+        {
+
         }
+        
     }
+    void OnTriggerExit2D(Collider2D other)
+    {
+
+        if (isOccupied == true)
+        {
+
+
+            isOccupied = false;
+            
+        }
+
+    }
+
 }
 

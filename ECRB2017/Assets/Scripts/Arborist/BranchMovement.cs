@@ -25,7 +25,7 @@ public class BranchMovement : MonoBehaviour
         AM = GameObject.Find("ArborManager").GetComponent<ArborManager>();
         UpdateBranchSprite(branchIndex);
         maxBranchIndex = branches.Length - 1;
-        AlphaTransition(0.7f);
+        AlphaTransition(0.5f);
 
 
     }
@@ -45,11 +45,13 @@ public class BranchMovement : MonoBehaviour
             branches[branchIndex].transform.GetChild(0).gameObject.SetActive(true);
             AM.currentBranch = null;
         }
+        
         else if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            isSnapped = false;
-
-            AlphaTransition(0.7f);
+            Destroy(gameObject);
+            plat = null;
+            AM.currentBranch = null;
+            AlphaTransition(0.5f);
         }
 
 
@@ -58,28 +60,23 @@ public class BranchMovement : MonoBehaviour
 
 
 
-            if (Input.GetKey(KeyCode.Q) && rotAngle <= 0.1)
+            if (Input.GetKey(KeyCode.W) && rotAngle <= 0.15)
             {
                 if (facingRight)
                     platRotPos.transform.Rotate(Vector3.forward * rotSpeed);
                 else if (!facingRight)
                     platRotPos.transform.Rotate(Vector3.forward * rotSpeed);
             }
-            if (Input.GetKey(KeyCode.E) && rotAngle >= -0.1)
+            if (Input.GetKey(KeyCode.S) && rotAngle >= -0.15)
             {
                 if (facingRight)
                     platRotPos.transform.Rotate(Vector3.back * rotSpeed);
                 else if (!facingRight)
                     platRotPos.transform.Rotate(Vector3.back * rotSpeed);
-            }
-
-            if (Input.GetKeyDown(KeyCode.Mouse2) && !isSnapped)
-            {
-                Flip();
             }
 
             //changes the sprite GO out depending on selection
-            if (Input.GetKeyDown(KeyCode.G))
+            if (Input.GetKeyDown(KeyCode.A))
             {
                 if (branchIndex == 0)
                 {
@@ -92,7 +89,7 @@ public class BranchMovement : MonoBehaviour
                 UpdateBranchSprite(branchIndex);
                 AM.UpdateBranchButtons(branchIndex);
             }
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetKeyDown(KeyCode.D))
             {
                 if (branchIndex == maxBranchIndex)
                 {

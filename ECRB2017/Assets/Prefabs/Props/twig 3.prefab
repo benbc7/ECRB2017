@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 50109631689449864}
   m_Layer: 10
   m_Name: twig 3
-  m_TagString: Prop
+  m_TagString: Twig
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
