@@ -133,3 +133,19 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 }
+
+[System.Serializable]
+public class MonkeyInfo {
+	public GameObject monkey;
+	public int playerNumber;
+	public bool playing;
+	public int lives;
+	public Text livesText;
+	public GameObject uiPanel;
+
+	public bool gameOver {
+		get {
+			return !(lives > 0);
+		}
+	}
+}

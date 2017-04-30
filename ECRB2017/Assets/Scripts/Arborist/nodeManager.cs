@@ -7,7 +7,7 @@ public class nodeManager : MonoBehaviour {
 
     public bool rightSide;
     public bool isOccupied;
-    CircleCollider2D col;
+    public CircleCollider2D col;
     public Transform pivot;
     public ArboristController AC;
     public Sprite normalNode;

@@ -43,7 +43,6 @@ public class ArboristController : MonoBehaviour
     {
         directionalInput = new Vector2(joystick.GetAxisRaw("CursorHorizontal"), joystick.GetAxisRaw("CursorVertical"));
         Vector3 targetPos = new Vector3();
-        Debug.Log("" + targetPos);
         if (directionalInput.x <= joystickDeadZone && directionalInput.x >= -joystickDeadZone)
             rb.AddForce(Vector2.right * directionalInput.x * moveSpeed * Time.deltaTime);
         if (directionalInput.y <= joystickDeadZone && directionalInput.y >= -joystickDeadZone)
@@ -53,7 +52,7 @@ public class ArboristController : MonoBehaviour
 
         targetPos.x += directionalInput.x * moveSpeed * Time.deltaTime;
         targetPos.y += directionalInput.y * moveSpeed * Time.deltaTime;
-        targetPos.z = -0;
+        
 
         transform.position += targetPos;
 
@@ -75,7 +74,6 @@ public class ArboristController : MonoBehaviour
         if (joystick.GetButtonDown("PlaceBranch") && currentBranch == null && canSpawn == true)
         {
 
-            print("AC pb pressed");
             GameObject B = Instantiate(masterBranch, branchSpawnLoc.transform.position, branchSpawnLoc.transform.rotation);
             currentBranch = B;
             BM = currentBranch.GetComponent<BranchMovement>();

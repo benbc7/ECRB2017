@@ -9,12 +9,13 @@ public class climbingCam : MonoBehaviour {
 	public float maxSpeedScheduledTime;
 
 	private bool active;
+	private float startTime;
 
 	// Update is called once per frame
 	void Update () {
 		if (active) {
 			if (currentSpeedPercentage < 1)
-				currentSpeedPercentage = (Time.time / maxSpeedScheduledTime);
+				currentSpeedPercentage = ((Time.time - startTime) / maxSpeedScheduledTime);
 			else
 				currentSpeedPercentage = 1;
 
@@ -24,5 +25,6 @@ public class climbingCam : MonoBehaviour {
 
 	void Activate () {
 		active = true;
+		startTime = Time.time;
 	}
 }

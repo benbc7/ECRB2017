@@ -12,6 +12,13 @@ public class NodePrefab : PoolObject {
 		nodeManager = GetComponent<nodeManager> ();
 	}
 
+	public override void OnObjectReuse () {
+		base.OnObjectReuse ();
+
+		nodeManager.col.enabled = true;
+		nodeManager.isOccupied = false;
+	}
+
 	private void Update () {
 
 		if (timer > 0) {
