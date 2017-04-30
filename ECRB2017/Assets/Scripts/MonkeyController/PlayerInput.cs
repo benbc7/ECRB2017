@@ -11,6 +11,7 @@ public class PlayerInput : MonoBehaviour {
 
 	Vector2 directionalInput;
 
+	bool alive = true;
 	bool attacking;
 	bool readyToRoll = true;
 	bool stunned;
@@ -33,10 +34,14 @@ public class PlayerInput : MonoBehaviour {
 	void Update () {
 		UpdateTimers ();
 
-		MovementInput ();
+		if (alive) {
+			MovementInput ();
 
-		if (!stunned) {
-			AttackInput ();
+			if (!stunned) {
+				AttackInput ();
+			}
+		} else {
+			player.SetDirectionalInput (Vector2.zero);
 		}
 	}
 
@@ -107,6 +112,14 @@ public class PlayerInput : MonoBehaviour {
 		stunned = true;
 		stunTimer = Time.time + stunDuration;
 		controller2D.animator.SetTrigger ("stun");
+	}
+
+	public void OnPlayerDeath () {
+		alive = false;
+	}
+
+	public void Respawn () {
+		alive = true;
 	}
 
 	void UpdateTimers () {

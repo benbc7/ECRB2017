@@ -11,6 +11,36 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1678937667867412}
   m_IsPrefabParent: 1
+--- !u!1 &1481434939174962
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4291135125925222}
+  m_Layer: 13
+  m_Name: Respawn1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1610683076897940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4268371183373622}
+  m_Layer: 13
+  m_Name: Respawn2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1678937667867412
 GameObject:
   m_ObjectHideFlags: 0
@@ -29,16 +59,44 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4268371183373622
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1610683076897940}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5, y: 8.36, z: -0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4361664115158168}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4291135125925222
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1481434939174962}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5, y: 8.36, z: -0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4361664115158168}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4361664115158168
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1678937667867412}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4291135125925222}
+  - {fileID: 4268371183373622}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -98,15 +156,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a169a9f477220d74eb75cfccb46dc43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theArboristPrefab: {fileID: 0}
   monkeyPrefabs:
   - {fileID: 1418570228654014, guid: 747b8efc1649eb64db98348570bb8f4a, type: 2}
   - {fileID: 1916637074499602, guid: be7f123a06f62a546a1b68af56bb339a, type: 2}
   - {fileID: 1184642770551378, guid: 0437262c47da1f74c82fafe1d126b0e6, type: 2}
+  spawnPlatform: {fileID: 1287317048830454, guid: 73907176db0174c419b50c43ef6a50b4,
+    type: 2}
   initialSpawnPoints:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  numberOfLives: 0
+  respawnPoints:
+  - {fileID: 4291135125925222}
+  - {fileID: 4268371183373622}
+  monkeyUIPanels:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  livesTexts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  activeOnStart: 0
+  numberOfLives: 5
   monkeys: []

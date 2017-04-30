@@ -13,18 +13,15 @@ public class MenuManager : MonoBehaviour {
 	private int indicatorIndex;
 
 	private bool[] playersJoined = new bool[4] { true, false, false, false};
-	private bool[] playersReady = new bool[4] { true, true, true, true};
 	private int numberOfPlayers = 1;
 
 	private bool readyToPlay {
 		get {
-			return (playersReady [0] == true && playersReady [1] == true && playersReady [2] == true && playersReady [3] == true && numberOfPlayers > 1);
+			return (numberOfPlayers > 1);
 		}
 	}
 
 	private void Awake () {
-		playersJoined [0] = true;
-		playersReady [0] = true;
 		gameManager = FindObjectOfType<GameManager> ();
 	}
 
@@ -55,7 +52,7 @@ public class MenuManager : MonoBehaviour {
 			mainIndicators [indicatorIndex].SetActive (true);
 		} else if (input == "Select") {
 			if (indicatorIndex == 0 && readyToPlay) {
-				StartGame ();
+				gameManager.StartGame ();
 			} else if (indicatorIndex == 1) {
 				ExitGame ();
 			}
@@ -65,17 +62,9 @@ public class MenuManager : MonoBehaviour {
 	private void PlayerSetup (int playerIndex, string input) {
 		if (input == "Start" && !playersJoined [playerIndex]) {
 			OnPlayerJoin (playerIndex);
+		} else if (input == "Back" && playersJoined[playerIndex]) {
+			OnPlayerQuit (playerIndex);
 		}
-	}
-
-	private void StartInput (int playerIndex) {
-		if (!playersJoined [playerIndex]) {
-			OnPlayerJoin (playerIndex);
-		}
-	}
-
-	private void StartGame () {
-
 	}
 
 	private void ExitGame () {
@@ -84,14 +73,14 @@ public class MenuManager : MonoBehaviour {
 
 	private void OnPlayerJoin (int playerIndex) {
 		playersJoined [playerIndex] = true;
+		gameManager.SpawnMonkey (playerIndex);
 		numberOfPlayers++;
 	}
 
 	private void OnPlayerQuit (int playerIndex) {
-		if (playerIndex == 0) {
-			SceneManager.LoadScene (0);
-		} else {
+		if (playerIndex != 0) {
 			playersJoined [playerIndex] = false;
+			gameManager.OnPlayerQuit (playerIndex);
 			numberOfPlayers--;
 		}
 	}
