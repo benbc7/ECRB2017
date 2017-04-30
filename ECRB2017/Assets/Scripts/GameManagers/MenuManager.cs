@@ -75,7 +75,7 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	private void StartGame () {
-		gameManager.StartGame ();
+
 	}
 
 	private void ExitGame () {

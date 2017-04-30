@@ -185,7 +185,6 @@ public class Controller2D : RaycastController {
             collisions.below = true;
             animator.SetBool ("isGrounded", true);
             collisions.climbingSlope = true;
-			print ("ClimbingSlope");
             collisions.slopeAngle = slopeAngle;
             collisions.slopeNormal = slopeNormal;
         }        

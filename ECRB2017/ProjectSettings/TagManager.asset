@@ -8,6 +8,7 @@ TagManager:
   - Branch
   - Node
   - Twig
+  - Prop
   layers:
   - Default
   - TransparentFX
@@ -22,8 +23,8 @@ TagManager:
   - SetPieces
   - Node
   - Arborist
-  - 
-  - 
+  - DeathTrigger
+  - Prop
   - 
   - 
   - 

@@ -10,27 +10,24 @@ public class SmoothDampToTarget : MonoBehaviour {
 
 	#region Variables
 
-	private Vector3 target;
+	public Transform target;
+	public float zPosition;
 	public float smoothTime = 0.3f;
 	private Vector3 velocity = Vector3.zero;
-	private bool lerping;
 
 	#endregion
 
 	void Update () {
-		if (transform.position == target) {
-			lerping = false;
-		}
-		if (lerping) {
-			transform.position = Vector3.SmoothDamp (transform.position, target, ref velocity, smoothTime);
+		if (transform.position.x != target.position.x && transform.position.y != target.position.y) {
+			Vector3 position = new Vector3 (target.position.x, target.position.y, zPosition);
+			transform.position = Vector3.SmoothDamp (transform.position, position, ref velocity, smoothTime);
 		}
 	}
 
 	#region Functions
 
-	void GetNewTarget (Vector3 position) {
-		target = position;
-		lerping = true;
+	void GetNewTarget (Transform newTarget) {
+		target = newTarget;
 	}
 
 	#endregion

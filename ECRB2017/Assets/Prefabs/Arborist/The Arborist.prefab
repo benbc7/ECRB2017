@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 212785906257850618}
   - component: {fileID: 50301578549345696}
   - component: {fileID: 58951710201414182}
+  - component: {fileID: 95705055313030496}
   m_Layer: 12
   m_Name: ArborManager
   m_TagString: Untagged
@@ -117,7 +118,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1502306791578110}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.526, y: -1.722, z: -3}
+  m_LocalPosition: {x: -3.038, y: -1.774, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4223202085599306}
@@ -171,6 +172,23 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.3
+--- !u!95 &95705055313030496
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1502306791578110}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fb78771b1293d834f848b05543aea232, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114447760302453056
 MonoBehaviour:
   m_ObjectHideFlags: 1

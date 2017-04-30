@@ -10,6 +10,8 @@ public class TrunkManager : MonoBehaviour {
 
 	private Transform stump;
 
+	private Vector3 trunkPosition;
+
 	private void Start () {
 		PoolManager.instance.CreatePool (trunkPrefab, 5);
 		PoolManager.instance.CreatePool (setPiecePrefabs.nodePrefab, 20);
@@ -22,17 +24,20 @@ public class TrunkManager : MonoBehaviour {
 		}
 		stump = GameObject.Find ("Stump").transform;
 		stump.GetComponent<TrunkPrefab> ().OnObjectReuse ();
-
+		trunkPosition = stump.transform.position;
 		InitializeTrunk ();
 	}
 
 	private void InitializeTrunk () {
 		for (int i = 0; i < 5; i++) {
-			PoolManager.instance.ReuseObject (trunkPrefab, new Vector3 (stump.position.x, stump.position.y + (4 * (i + 1)), -1), Quaternion.identity);
+			SpawnNewTrunk ();
 		}
 	}
 
-
+	private void SpawnNewTrunk () {
+		trunkPosition.y += 4;
+		PoolManager.instance.ReuseObject (trunkPrefab, trunkPosition, Quaternion.identity);
+	}
 }
 
 [System.Serializable]
