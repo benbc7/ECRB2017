@@ -8,6 +8,7 @@ public class nodeManager : MonoBehaviour {
     public bool leftSide;
     public bool isOccupied;
     CircleCollider2D col;
+    public Transform pivot;
     public ArborManager AM;
 	// Use this for initialization
 	void Start ()
@@ -37,14 +38,12 @@ public class nodeManager : MonoBehaviour {
             if (rightSide && other.gameObject.GetComponent<BranchMovement>().facingRight == true)
             {
                 isOccupied = true;
-                other.transform.position = transform.position;
-                AM.BM.isSnapped = true;
+                other.transform.position = pivot.transform.position;
             }
             else if (!rightSide && other.gameObject.GetComponent<BranchMovement>().facingRight == false)
             {
                 isOccupied = true;
-                other.transform.position = transform.position;
-                AM.BM.isSnapped = true;
+                other.transform.position = pivot.transform.position;
             }
         }
     }

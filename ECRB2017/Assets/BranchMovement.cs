@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class BranchMovement : MonoBehaviour {
+public class BranchMovement : MonoBehaviour
+{
     public float moveSpeed;
     public float rotSpeed;
     public bool isLocked;
@@ -14,78 +15,57 @@ public class BranchMovement : MonoBehaviour {
     public GameObject[] branches;
     public SpriteRenderer sr;
     public ArborManager AM;
-    public Transform platRotPos;
     public BoxCollider2D plat;
-   
+    public Transform platRotPos;
+
     public float rotAngle;
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
         AM = GameObject.Find("ArborManager").GetComponent<ArborManager>();
         UpdateBranchSprite(branchIndex);
         maxBranchIndex = branches.Length - 1;
         AlphaTransition(0.7f);
-        
 
-	}
+
+    }
 
     // Update is called once per frame
     void Update()
     {
         if (facingRight)
-            rotAngle = plat.transform.rotation.z;
-        else
             rotAngle = plat.transform.rotation.z * -1;
-        if (isSnapped)
+        else
+            rotAngle = plat.transform.rotation.z;
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                isLocked = true;
-
-                AlphaTransition(1f);
-                AM.branchSpawnLoc.position = new Vector2(0, AM.currentBranch.transform.position.y + 5);
-                AM.currentBranch = null;
-                Destroy(this);
-            }
-            else if (Input.GetKeyDown(KeyCode.LeftShift))
-            {
-                isSnapped = false;
-
-                AlphaTransition(0.7f);
-            }
+            isLocked = true;
+            AlphaTransition(1f);
+            branches[branchIndex].transform.GetChild(0).gameObject.SetActive(true);
+            AM.currentBranch = null;
         }
+        else if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            isSnapped = false;
+
+            AlphaTransition(0.7f);
+        }
+
 
         if (!isLocked)
         {
-            if (!isSnapped)
-            {
-                if (Input.GetKey(KeyCode.W))
-                {
-                    transform.Translate(Vector2.up * (moveSpeed / 100), Space.World);
-                }
-                if (Input.GetKey(KeyCode.S))
-                {
-                    transform.Translate(Vector2.down * (moveSpeed / 100), Space.World);
-                }
-                if (Input.GetKey(KeyCode.A))
-                {
-                    transform.Translate(Vector2.left * (moveSpeed / 100), Space.World);
-                }
-                if (Input.GetKey(KeyCode.D))
-                {
-                    transform.Translate(Vector2.right * (moveSpeed / 100), Space.World);
-                }
-            }
 
 
-            if (Input.GetKey(KeyCode.Q))
+
+            if (Input.GetKey(KeyCode.Q) && rotAngle <= 0.1)
             {
                 if (facingRight)
                     platRotPos.transform.Rotate(Vector3.forward * rotSpeed);
                 else if (!facingRight)
                     platRotPos.transform.Rotate(Vector3.forward * rotSpeed);
             }
-            if (Input.GetKey(KeyCode.E))
+            if (Input.GetKey(KeyCode.E) && rotAngle >= -0.1)
             {
                 if (facingRight)
                     platRotPos.transform.Rotate(Vector3.back * rotSpeed);
@@ -93,7 +73,7 @@ public class BranchMovement : MonoBehaviour {
                     platRotPos.transform.Rotate(Vector3.back * rotSpeed);
             }
 
-            if (Input.GetKeyDown(KeyCode.Mouse0) && !isSnapped)
+            if (Input.GetKeyDown(KeyCode.Mouse2) && !isSnapped)
             {
                 Flip();
             }
@@ -117,7 +97,7 @@ public class BranchMovement : MonoBehaviour {
                 if (branchIndex == maxBranchIndex)
                 {
                     branchIndex = 0;
-                    
+
                 }
                 else
                 {
@@ -130,17 +110,17 @@ public class BranchMovement : MonoBehaviour {
             }
         }
     }
-    void Flip()
+    public void Flip()
     {
         facingRight = !facingRight;
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
     }
-    public void AlphaTransition (float alpha)
+    public void AlphaTransition(float alpha)
     {
-            sr.color = new Color (255, 255, 255, alpha);
-        
+        sr.color = new Color(255, 255, 255, alpha);
+
     }
     void UpdateBranchSprite(int index)
     {
@@ -148,6 +128,11 @@ public class BranchMovement : MonoBehaviour {
             branches[i].SetActive(false);
 
         branches[index].SetActive(true);
+        platRotPos = branches[index].GetComponentInChildren<Transform>();
+
+        plat = branches[index].GetComponentInChildren<BoxCollider2D>();
+
+        sr = branches[index].GetComponentInChildren<SpriteRenderer>();
         AM.UpdateIndexUI(index);
     }
 
