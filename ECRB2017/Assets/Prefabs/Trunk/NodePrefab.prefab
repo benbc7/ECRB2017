@@ -132,6 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightSide: 1
   isOccupied: 0
+  col: {fileID: 58182374859996104}
   pivot: {fileID: 4718724002380406}
   AC: {fileID: 0}
   normalNode: {fileID: 21300000, guid: 9cad32f0c0795934a88c20aef039a01f, type: 3}

@@ -9,6 +9,7 @@ TagManager:
   - Node
   - Twig
   - Prop
+  - StationaryPlatform
   layers:
   - Default
   - TransparentFX
