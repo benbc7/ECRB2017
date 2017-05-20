@@ -12,7 +12,7 @@ public class ArboristController : MonoBehaviour
     public GameObject masterBranch;
     public GameObject currentBranch;
     public BranchMovement BM;
-    public nodeManager NM;
+    public NodePrefab nodePrefab;
     public Transform branchSpawnLoc;
     public int branchIndex;
     public int maxBranchIndex;
@@ -78,10 +78,10 @@ public class ArboristController : MonoBehaviour
             currentBranch = B;
             BM = currentBranch.GetComponent<BranchMovement>();
             BM.GetComponent<Rigidbody2D>().isKinematic = true;
-            if (NM.rightSide == false)
-            {
-                BM.Flip();
-            }
+            //if (nodePrefab.rightSide == false)
+            //{
+            //    BM.Flip();
+            //}
             UpdateBranchButtons(BM.branchIndex);
         }
     }
@@ -115,9 +115,9 @@ public class ArboristController : MonoBehaviour
 
         if (other.tag == "Node")
         {
-            NM = other.GetComponent<nodeManager>();
+            nodePrefab = other.GetComponent<NodePrefab>();
             canSpawn = true;
-            branchSpawnLoc.position = NM.pivot.transform.position;
+            branchSpawnLoc.position = nodePrefab.pivot.transform.position;
 
         }
     }

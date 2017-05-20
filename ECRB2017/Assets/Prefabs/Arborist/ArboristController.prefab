@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 50758049442630612}
   - component: {fileID: 58717128009502324}
   - component: {fileID: 95692285945739460}
-  - component: {fileID: 114038200400173792}
+  - component: {fileID: 114965360786462256}
   m_Layer: 12
   m_Name: ArboristController
   m_TagString: Untagged
@@ -96,7 +96,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114038200400173792
+--- !u!114 &114965360786462256
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -104,10 +104,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1197904586128996}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f770bd17a196b4a976636eb95ad24f, type: 3}
+  m_Script: {fileID: 11500000, guid: ac41f91fd664a164dbd565a52b65044d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 50758049442630612}
+  canSpawn: 0
+  branchIndex: 4
+  maxBranchIndex: 0
+  branches: []
   branchButtons:
   - {fileID: 0}
   - {fileID: 0}
@@ -116,20 +119,17 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  moveSpeed: 6
-  canSpawn: 0
+  branchSR: {fileID: 0}
   masterBranch: {fileID: 1582269266919670, guid: c69e2701c0e826340baf51c67a0620f0,
     type: 2}
   currentBranch: {fileID: 0}
-  BM: {fileID: 0}
-  NM: {fileID: 0}
   branchSpawnLoc: {fileID: 0}
-  branchIndex: 0
-  maxBranchIndex: 0
-  cam: {fileID: 0}
+  NP: {fileID: 0}
+  lockedOnNode: 0
+  moveSpeed: 3
   joystickDeadZone: 0.1
   fistDrop: 0
-  fistTimer: 0.5
+  fistTimer: 0.3
   leftFist: {fileID: 21300000, guid: a4b9a1c546d2e8e4eaf5109300b935a7, type: 3}
   leftHand: {fileID: 21300000, guid: d3abd8cfda7389747bccf2eef4c32d5d, type: 3}
   rightFist: {fileID: 21300000, guid: 9f6adcddf2cd3954481dc36007e38803, type: 3}

@@ -36,6 +36,8 @@ public class MonkeyPlayer : MonoBehaviour {
 
 	[System.NonSerialized]
     public bool wallSliding;
+	[System.NonSerialized]
+	public bool grabbingLedge;
     int wallDirectionX;
 
 	void Start () {
@@ -208,6 +210,14 @@ public class MonkeyPlayer : MonoBehaviour {
             }
         }
     }
+
+	void HandleEdgeGrabbing () {
+		wallDirectionX = (controller.collisions.left) ? -1 : 1;
+		grabbingLedge = false;
+		controller.animator.SetBool ("grabbingLedge", true);
+
+
+	}
 
     void CalculateVelocity () {
         float targetVelocityX = directionalInput.x * moveSpeed;

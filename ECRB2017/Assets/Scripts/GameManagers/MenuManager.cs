@@ -11,6 +11,7 @@ public class MenuManager : MonoBehaviour {
 	public GameObject mainPanel;
 
 	private GameManager gameManager;
+	private ArboristBranchBuilder arboristCursor;
 
 	private int indicatorIndex;
 
@@ -32,12 +33,13 @@ public class MenuManager : MonoBehaviour {
 
 	private void Awake () {
 		gameManager = FindObjectOfType<GameManager> ();
+		arboristCursor = FindObjectOfType<ArboristBranchBuilder> ();
 		audioSource = GetComponent<AudioSource> ();
 	}
 
 	public void PlayerInput (int playerIndex, string input) {
 		if (playerIndex == 0) {
-			MainMenu (input);
+			 //MainMenu (input);
 		} else {
 			PlayerSetup (playerIndex, input);
 		}
@@ -81,6 +83,16 @@ public class MenuManager : MonoBehaviour {
 			OnPlayerJoin (playerIndex);
 		} else if (input == "Back" && playersJoined[playerIndex]) {
 			OnPlayerQuit (playerIndex);
+		}
+	}
+
+	private void StartGame () {
+		if (readyToPlay) {
+			arboristCursor.menuMode = false;
+			gameManager.StartGame ();
+			mainPanel.SetActive (false);
+			audioSource.pitch = 1.5f;
+			audioSource.PlayOneShot (popClip);
 		}
 	}
 

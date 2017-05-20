@@ -40,7 +40,6 @@ public class TrunkPrefab : PoolObject {
 			node.SendMessage ("ResetTimer");
 			if (position.x < 0) {
 				node.transform.localScale = new Vector3 (-1, 1, 1);
-				node.GetComponent<nodeManager> ().rightSide = false;
 			}
 		}
 	}
