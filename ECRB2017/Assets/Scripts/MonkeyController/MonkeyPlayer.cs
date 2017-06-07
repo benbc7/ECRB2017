@@ -53,7 +53,7 @@ public class MonkeyPlayer : MonoBehaviour {
 
     void Update () {
         CalculateVelocity ();
-        HandleWallSliding ();
+        //HandleWallSliding ();
 
         controller.Move (velocity * Time.deltaTime, directionalInput);
         controller.animator.SetFloat ("velocityX", Mathf.Abs (velocity.x));

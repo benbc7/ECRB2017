@@ -529,10 +529,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6f50fa290cecb448c13eb0aba4ef2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 7.5
+  moveSpeed: 6.5
   maxJumpHeight: 3
   minJumpHeight: 1
-  timeToJumpApex: 0.35
+  timeToJumpApex: 0.4
   wallJumpClimb: {x: 7.5, y: 16}
   wallJumpOff: {x: 8.5, y: 7}
   wallLeap: {x: 18, y: 17}
