@@ -18,7 +18,7 @@ public class Controller2D : RaycastController {
 		base.Start ();
 		collisions.faceDirection = 1;
 		animator = GetComponent<Animator> ();
-		sprite = transform.FindChild ("Sprite");
+		sprite = transform.Find ("Sprite");
 	}
 
 	public void Move (Vector2 moveAmount, bool standingOnPlatform = false) {

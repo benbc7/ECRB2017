@@ -498,18 +498,30 @@ MonoBehaviour:
   respawnPoints:
   - {fileID: 4291135125925222}
   - {fileID: 4268371183373622}
-  monkeyUIPanels:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  livesTexts:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  gameOver: []
   trackAudioSource: {fileID: 82131629725464174}
   soundEffectSource: {fileID: 82478003649044878}
   respawnClip: {fileID: 8300000, guid: aca96edaf4a4c4442ac38ce63cd1ac0a, type: 3}
   playing: 0
   numberOfLives: 5
-  monkeys: []
+  monkeyInfoArray:
+  - monkey: {fileID: 0}
+    playerNumber: 0
+    playing: 0
+    lives: -1
+    livesText: {fileID: 0}
+    uiPanel: {fileID: 0}
+    gameOverUI: {fileID: 0}
+  - monkey: {fileID: 0}
+    playerNumber: 1
+    playing: 0
+    lives: -1
+    livesText: {fileID: 0}
+    uiPanel: {fileID: 0}
+    gameOverUI: {fileID: 0}
+  - monkey: {fileID: 0}
+    playerNumber: 2
+    playing: 0
+    lives: -1
+    livesText: {fileID: 0}
+    uiPanel: {fileID: 0}
+    gameOverUI: {fileID: 0}

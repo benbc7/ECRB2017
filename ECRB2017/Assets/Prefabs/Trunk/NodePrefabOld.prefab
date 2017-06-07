@@ -99,6 +99,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a6fffe41824288429cdd90ad89da980, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cirCol: {fileID: 0}
+  isOccupied: 0
+  nodeSR: {fileID: 0}
+  highlightedNode: {fileID: 0}
+  normalNode: {fileID: 0}
+  pivot: {fileID: 0}
 --- !u!212 &212380421731827076
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -112,7 +118,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a281867a2c2e050418fe6923b4458124, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

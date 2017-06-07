@@ -13,10 +13,6 @@ public class GameManager : MonoBehaviour {
 	public Transform[] respawnPoints;
 	private int nextPointIndex;
 
-	public GameObject[] monkeyUIPanels;
-	public Text[] livesTexts;
-	public GameObject[] gameOver;
-
 	public AudioSource trackAudioSource;
 	public AudioSource soundEffectSource;
 	public AudioClip respawnClip;
@@ -28,17 +24,13 @@ public class GameManager : MonoBehaviour {
 	[Range (0, 11)]
 	public int numberOfLives;
 
-	[HideInInspector]
-	public List<GameObject> monkeys = new List<GameObject> ();
+	public MonkeyInfo[] monkeyInfoArray;
 
 	private GameObject theArborist;
-
-	private int[] livesRemaining = new int[3];
 
 	private GameObject cam;
 	private TrunkManager trunkManager;
 	private MenuManager menuManager;
-	private int numberOfMonkies;
 
 	private void Awake () {
 		trunkManager = FindObjectOfType<TrunkManager> ();
@@ -47,7 +39,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void Update () {
-		if (livesRemaining[0] == 0 && livesRemaining[1] == 0 && livesRemaining[2] == 0 && playing) {
+		if (monkeyInfoArray [0].lives < 0 && monkeyInfoArray [1].lives < 0 && monkeyInfoArray [2].lives < 0 && playing) {
 			SceneManager.LoadScene (0);
 		}
 	}
@@ -57,10 +49,10 @@ public class GameManager : MonoBehaviour {
 		menuManager.gameObject.SetActive (false);
 		playing = true;
 		StartCoroutine (FadeUpTrack ());
-		for (int i = 0; i < monkeys.Count; i++) {
-			if (monkeys[i] != null) {
-				monkeyUIPanels [i].SetActive (true);
-				livesTexts [i].text = "x" + livesRemaining [i];
+		for (int i = 0; i < 3; i++) {
+			if (monkeyInfoArray[i].playing) {
+				monkeyInfoArray [i].uiPanel.SetActive (true);
+				monkeyInfoArray [i].livesText.text = "x" + monkeyInfoArray [i].lives;
 			}
 		}
 	}
@@ -76,9 +68,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void SpawnMonkey (int playerIndex) {
-		monkeys.Add (Instantiate (monkeyPrefabs [playerIndex - 1], initialSpawnPoints [playerIndex].position, Quaternion.identity));
-		numberOfMonkies++;
-		livesRemaining [playerIndex - 1] = numberOfLives;
+		monkeyInfoArray[playerIndex - 1].monkey = (Instantiate (monkeyPrefabs [playerIndex - 1], initialSpawnPoints [playerIndex].position, Quaternion.identity));
+		monkeyInfoArray [playerIndex - 1].playing = true;
+		monkeyInfoArray [playerIndex - 1].lives = numberOfLives;
 	}
 
 	private IEnumerator RespawnPlayer (int playerNumber) {
@@ -86,8 +78,8 @@ public class GameManager : MonoBehaviour {
 		yield return new WaitForSeconds (2f);
 
 		Instantiate (spawnPlatform, respawnPoints [nextPointIndex].position, Quaternion.identity);
-		monkeys [playerNumber].transform.position = respawnPoints [nextPointIndex].position + Vector3.up * 2;
-		monkeys [playerNumber].SendMessage ("Respawn");
+		monkeyInfoArray [playerNumber].monkey.transform.position = respawnPoints [nextPointIndex].position + Vector3.up * 2;
+		monkeyInfoArray [playerNumber].monkey.SendMessage ("Respawn");
 		soundEffectSource.pitch = Random.Range (0.75f, 1.25f);
 		soundEffectSource.PlayOneShot (respawnClip);
 
@@ -99,25 +91,26 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void PlayerLost (int playerNumber) {
-		//gameOver [playerNumber].SetActive (true);
-
+		monkeyInfoArray [playerNumber].livesText.enabled = false;
+		//monkeyInfoArray [playerNumber].gameOverUI.SetActive (true);
 	}
 
 	private void OnPlayerDeath (int playerIndex) {
-		monkeys [playerIndex].SendMessage ("OnPlayerDeath");
-		if (livesRemaining [playerIndex] <= 0) {
+		monkeyInfoArray [playerIndex].monkey.SendMessage ("OnPlayerDeath");
+		monkeyInfoArray [playerIndex].lives--;
+		if (monkeyInfoArray [playerIndex].lives < 0) {
 			PlayerLost (playerIndex);
 		} else {
-			livesRemaining [playerIndex]--;
-			livesTexts [playerIndex].text = "x" + livesRemaining [playerIndex];
+			monkeyInfoArray [playerIndex].livesText.text = "x" + monkeyInfoArray [playerIndex].lives;
 			StartCoroutine (RespawnPlayer (playerIndex));
 		}
 	}
 
 	public void OnPlayerQuit (int playerIndex) {
-		Destroy (monkeys [playerIndex]);
-		monkeys.Remove (monkeys[playerIndex]);
-		numberOfMonkies--;
+		Destroy (monkeyInfoArray [playerIndex -1].monkey);
+		monkeyInfoArray [playerIndex - 1].monkey = null;
+		monkeyInfoArray [playerIndex - 1].playing = false;
+		monkeyInfoArray [playerIndex - 1].lives = -1;
 	}
 
 	private void OnTriggerEnter2D (Collider2D other) {
@@ -139,13 +132,14 @@ public class MonkeyInfo {
 	public GameObject monkey;
 	public int playerNumber;
 	public bool playing;
-	public int lives;
+	public int lives = -1;
 	public Text livesText;
 	public GameObject uiPanel;
+	public GameObject gameOverUI;
 
 	public bool gameOver {
 		get {
-			return !(lives > 0);
+			return !(lives >= 0);
 		}
 	}
 }

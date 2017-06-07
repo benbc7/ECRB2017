@@ -89,10 +89,10 @@ public class MenuManager : MonoBehaviour {
 	private void StartGame () {
 		if (readyToPlay) {
 			arboristCursor.menuMode = false;
-			gameManager.StartGame ();
-			mainPanel.SetActive (false);
 			audioSource.pitch = 1.5f;
 			audioSource.PlayOneShot (popClip);
+			gameManager.StartGame ();
+			mainPanel.SetActive (false);
 		}
 	}
 
