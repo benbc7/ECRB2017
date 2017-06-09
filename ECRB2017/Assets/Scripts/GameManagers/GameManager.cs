@@ -92,7 +92,8 @@ public class GameManager : MonoBehaviour {
 
 	private void PlayerLost (int playerNumber) {
 		monkeyInfoArray [playerNumber].livesText.enabled = false;
-		//monkeyInfoArray [playerNumber].gameOverUI.SetActive (true);
+		monkeyInfoArray [playerNumber].gameOverUI.SetActive (true);
+		Destroy (monkeyInfoArray [playerNumber].monkey);
 	}
 
 	private void OnPlayerDeath (int playerIndex) {
@@ -129,9 +130,12 @@ public class GameManager : MonoBehaviour {
 
 [System.Serializable]
 public class MonkeyInfo {
+	[HideInInspector]
 	public GameObject monkey;
 	public int playerNumber;
+	[HideInInspector]
 	public bool playing;
+	[HideInInspector]
 	public int lives = -1;
 	public Text livesText;
 	public GameObject uiPanel;

@@ -80,6 +80,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waitTime: 7
+  decreaseOpacity: 1
 --- !u!114 &114702458762642186
 MonoBehaviour:
   m_ObjectHideFlags: 1
